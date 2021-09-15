@@ -1,0 +1,66 @@
+{"$and" :[{"$or":[{"founded_year": "2004"},{"$or" :  [{"category_code" : "social"},{"category_code" : "web"}]} ]}, {"$or": [ {"founded_month": 10}, {"$or" : [ {"category_code" : "social"},{"category_code" : "web"}]} ]}]}
+
+
+db.companies.find({"$and" :[{"$or":[{"founded_year": "2004"},{"$or" :  [{"category_code" : "social"},{"category_code" : "web"}]} ]}, {"$or": [ {"founded_month": 10}, {"$or" : [ {"category_code" : "social"},{"category_code" : "web"}]} ]}]}).count()
+
+db.companies.find({"$and" : [{"$or":[{"founded_year": 2004},{"founded_month": 10}]}, {"$or":[{"category_code": "web"},{"category_code": "social"}]}]}).count()
+
+
+
+db.companies.find({"$and" :  [{"$and" : [{"founded_month": 10},{"$or" :  [{"category_code": "web"},{"category_code": "social"}]}]}, {"$and" : [{"founded_year": 2004},{"$or" :  [{"category_code": "web"},{"category_code": "social"}]}]}]})
+
+
+db.companies.find({"$and" : [{"founded_month": 10},{"$or" :  [{"category_code": "web"},{"category_code": "social"}]}]})
+
+db.companies.find({"$and" : [{"founded_year": 2004},{"$or" :  [{"category_code": "web"},{"catgory_code": "social"}]}]})
+
+
+{"amenities":{$all :["TV", "Cable TV", "Wifi", "Air conditioning", "Pool", "Kitchen", "Free parking on premises", "Elevator", "Hot tub", "Washer", "Dryer", "Essentials", "Shampoo", "Hangers", "Hair dryer", "Iron", "Laptop friendly workspace", "Self check-in", "Lockbox", "Hot water", "Bed linens", "Extra pillows and blankets", "Ethernet connection", "Microwave", "Coffee maker", "Refrigerator", "Dishes and silverware", "Cooking basics", "Stove", "BBQ grill", "Garden or backyard", "Well-lit path to entrance", "Disabled parking spot", "Step-free access", "Wide clearance to bed", "Step-free access"]}}
+
+
+db.grades.find({"class_id":431},{"scores":{"$elemMatch":{"score":{"$gt":85}}}}).pretty()
+
+
+db.grades.find({"scores":{"$elemMatch":{"type":"extra credit"}}}).pretty()
+
+
+db.companies.find({"offices" :  {"$elemMatch" : {"city" : "Seattle"}}})
+
+db.trips.findOne({"start station location.type":"Point"})
+
+db.companies.find({"relationships.0.person.last_name" : "Zuckerberg"},{"name": 1})
+
+db.companies.find({"relationships" : {"$elemMatch" : { "is_past" : true, "person.first_name" :"Mark" }}}, {"name": 1})
+
+db.trips.find({"start station location.coordinates.0" : {"$lt" : -74}}).count()
+
+
+db.listingsAndReviews.aggregate([{"$match":{"amenities" : "Wifi"}},{"$project":{"price":1,"address":1,"_id":0}}])
+
+
+db.listingsAndReviews.aggregate([{$project:{"price":1,"address":1,"_id":0}},{$group:{ _id : "$address.country"}}])
+
+db.listingsAndReviews.aggregate([{$project:{"price":1,"address":1,"_id":0}},{$group:{ _id : "$address.country" , "count" : {"$sum":1}}}])
+
+
+db.listingsAndReviews.aggregate([{$project:{"price":1,"address":1,"_id":0}},{$group : {_id : "$room_type"}}])
+db.listingsAndReviews.aggregate({$group : {_id : "$room_type"}})
+
+db.zips.find().sort({"pop":1}).limit(1).pretty()
+
+db.zips.find().sort({"pop":-1}).limit(1).pretty()
+
+db.trips.find({"birth year" : {"$ne" : ""}}).sort({"birth year" : -1}).limit(1).pretty()
+
+db.trips.createIndex({"birth year" : 1})
+
+db.trips.find({"birth year" : 1989})
+
+
+db.trips.find({"start station id" : 476}).sort("birth year" : 1)  - > requires index for both fields
+
+
+db.iot.updateOne("sensor":r.sensor,"date" :  r.date,"valcount" :{"$lt":48}},{"$push":{"readings":{"v" : r.value , "t" : r.time},{"$inc" : {"valcount":1,"total" :r.value}},{upsert : true})
+
+
+db. 
